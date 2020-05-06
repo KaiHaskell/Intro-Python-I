@@ -18,15 +18,34 @@ and does the following:
    the format that your program expects arguments to be given.
    Then exit the program.
 
-Note: the user should provide argument input (in the initial call to run the file) and not 
+Note: the user should provide argument input (in the initial call to run the file) and not
 prompted input. Also, the brackets around year are to denote that the argument is
 optional, as this is a common convention in documentation.
 
-This would mean that from the command line you would call `python3 14_cal.py 4 2015` to 
-print out a calendar for April in 2015, but if you omit either the year or both values, 
+This would mean that from the command line you would call `python3 14_cal.py 4 2015` to
+print out a calendar for April in 2015, but if you omit either the year or both values,
 it should use today’s date to get the month and year.
 """
 
 import sys
-import calendar
-from datetime import datetime
+import calendar as cal
+from datetime import datetime as dt
+
+
+def calendar(*args):
+    now = dt.now()
+    current = (now.month, now.year)
+    c = cal.TextCalendar(cal.SUNDAY)
+    if len(args) == 0:
+        print(c.formatmonth(current[1], current[0]))
+    elif len(args) == 1:
+        if type(args[0]) is int and args[0] > 1 and args[0] < 13:
+            print(c.formatmonth(current[1], args[0]))
+    elif len(args) == 2:
+        if type(args[0]) is int and type(args[1]) is int and args[0] > 1 and args[0] < 13:
+            print(c.formatmonth(args[1], args[0]))
+    else:
+        print("Please input a valid number\n")
+
+
+calendar(8, 1969)
